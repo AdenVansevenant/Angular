@@ -1,0 +1,24 @@
+<h2>Event binding : mouse and touch</h2>
+<button (click)="onButtonClick()">I am a button</button>
+<p>You clicked {{ clickCount }} time(s)</p>
+<button (click)="showPopup()">Click Me</button>
+
+<hr>
+
+<h2>Better event binding : keyboard</h2>
+<input type="text" placeholder="Student..."
+  [(ngModel)]="liveInput"
+  (keyup.enter)="addStudent(liveInput); liveInput=''">
+<p>{{ liveInput }}</p>
+
+<h3>Lijst van students</h3>
+<ul>
+  <li *ngFor="let student of students; index as i">
+    {{ i + 1 }} - {{ student.name }}
+    <button (click)="removeStudent(i)">Verwijderen</button>
+  </li>
+</ul>
+
+<input type="text" placeholder="Student naam..." [(ngModel)]="addInput"
+  (keyup.enter)="addStudent(addInput)">
+<button (click)="addStudent(addInput)">Add</button>

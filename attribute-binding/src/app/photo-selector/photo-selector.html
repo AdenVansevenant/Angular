@@ -1,0 +1,27 @@
+<p>photo-selector works!</p>
+<div>
+    <img [src]="selectedPhoto" alt="selectedPhoto">
+</div>
+
+
+<div class="photo-gallery">
+    <h2>Photo Selector</h2>
+  
+    <!-- Dynamisch gebonden afbeelding -->
+    <div>
+      <img [src]="selectedPhoto" alt="Selected Photo" />
+    </div>
+
+    
+    <h3>Select a photo:</h3>
+    <!-- Lijst met foto's -->
+    <div class="photo-list">
+          @for (photo of photos; track photo) {
+            <button (click)="selectPhoto(photo)"> {{photo.split('/').pop()}}</button>
+            <!-- split('/') -> splitst een string op basis van het scheidingsteken /, resultaat is een array van delen
+                 pop() -> retourneert het laatste element van een array
+            -->
+            }
+    </div>
+  </div>
+

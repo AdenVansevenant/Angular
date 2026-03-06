@@ -1,0 +1,20 @@
+<h2>Event binding</h2>
+<h2>Click demo</h2>
+
+<p>Count: {{count}}</p>
+
+
+<button (click)="increment()">Click</button>
+<button (click)="reset()">reset</button>
+
+<!--Demo local template var-->
+
+<h2>Local template variabele</h2>
+
+<input #nameInput type="text" placeholder="Typ je naam">
+
+<button (click)="sayHello(nameInput.value)">Zeg Hallo</button>
+
+<h2>local template variabele + event binding (keyup.enter)</h2>
+<input #email type="email" placeholder="Typ je email"
+(keyup.enter)="save(email.value)"/>
