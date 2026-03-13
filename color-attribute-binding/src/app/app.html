@@ -1,0 +1,30 @@
+<h2>Change backgroundcolor:</h2>
+
+<input type="text" class="form-control-lg" placeholder="BackGroundColor..." #BackgroundColor>
+<input type="text" class="form-control-lg" placeholder="Color..." #ForegroundColor>
+
+<button (click)="changeColor(BackgroundColor.value, ForegroundColor.value)">
+  Change Color
+</button>
+
+<br><br>
+
+<h3>Change TextColor</h3>
+
+<div [style.background-color]="backgroundColor"
+     [style.color]="textColor">
+  <p>Example text</p>
+</div>
+
+<h2>Change backgroundcolor:</h2>
+
+  <input (click)=setBackgroundColor(rb1.value) 
+  type="radio" #rb1  name="type" value="blue" checked />Blue
+	<input (click)=setBackgroundColor(rb2.value) 
+  type="radio" name="type" #rb2 value="red"/>Red
+	<input (click)=setBackgroundColor(rb3.value) 
+  type="radio" name="type" #rb3 value="yellow"/>Yellow
+	<input (click)=setBackgroundColor(rb4.value) 
+  type="radio"  name="type" #rb4 value="black"/>Black
+	<input (click)=setBackgroundColor(rb5.value) 
+  type="radio" name="type" #rb5 value="green"/>Green<br />
