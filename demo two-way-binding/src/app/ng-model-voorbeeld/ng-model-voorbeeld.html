@@ -1,0 +1,13 @@
+<p>example of directive ng-model</p>
+
+
+<h1>{{myname}}</h1>
+
+<!--Event-databinding-->
+<label>Event-binding</label>
+<input #myTitle (input)="onClicked (myTitle.value)"/>  <br/> 
+
+<!--Attribute-databinding-->
+<label>Attribute-binding</label><input [value]="myname" [style.color]="fontcolor"> <br/>
+
+<label>ngModel</label><input [(ngModel)]="myname" />
