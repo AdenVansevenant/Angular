@@ -1,0 +1,19 @@
+
+<table>
+  <thead>
+    <tr>
+      <th>Naam</th>
+      <th>Stad</th>
+      <th>Totaal</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (customer of filteredCustomers$ | async; track customer.id) {
+      <tr>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.city }}</td>
+        <td>€{{ customer.orderTotal }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
