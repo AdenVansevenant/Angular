@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://player-backend-bqcea8cagredcabg.westeurope-01.azurewebsites.net",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

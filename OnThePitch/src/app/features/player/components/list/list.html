@@ -1,0 +1,44 @@
+<h2>Players</h2>
+
+<p>
+  <a routerLink="/players/create">Create new player</a>
+</p>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+@if (players$ | async; as players) {
+<p>Aantal spelers: {{ players.length }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Shirt no</th>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Appearances</th>
+      <th>Goals</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (player of players; track player.id) {
+    <tr>
+      <td>{{ player.shirtNo }}</td>
+      <td>{{ player.name?.trim() }}</td>
+      <td>{{ player.position?.name?.trim() }}</td>
+      <td>{{ player.appearances }}</td>
+      <td>{{ player.goals }}</td>
+      <td>
+        <a [routerLink]="['/players/details', player.id]">Details</a>
+        |
+        <a [routerLink]="['/players/edit', player.id]">Edit</a>
+        |
+        <button type="button" (click)="deletePlayer(player.id)">Delete</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+}

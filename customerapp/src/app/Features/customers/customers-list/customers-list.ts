@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Customer } from '../../../Shared/Models/customer.model';
+import { Customer } from '../Models/customer.model';
 
 @Component({
   selector: 'app-customers-list',

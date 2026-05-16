@@ -1,0 +1,47 @@
+.movie-detail {
+  align-items: flex-start;
+  display: flex;
+  gap: 48px;
+  max-width: 980px;
+}
+
+.movie-poster {
+  display: block;
+  max-width: 255px;
+  width: 100%;
+}
+
+.movie-copy {
+  max-width: 440px;
+}
+
+.movie-copy h2 {
+  font-size: 3rem;
+  margin: 0 0 14px;
+}
+
+.movie-copy h3 {
+  font-size: 2rem;
+  margin: 26px 0 14px;
+}
+
+.movie-copy p {
+  line-height: 1.45;
+  margin: 0 0 4px;
+}
+
+.plot {
+  margin-bottom: 18px !important;
+}
+
+.movie-copy button {
+  cursor: pointer;
+  padding: 3px 8px;
+}
+
+@media (max-width: 800px) {
+  .movie-detail {
+    flex-direction: column;
+    gap: 24px;
+  }
+}

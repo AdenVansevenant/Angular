@@ -1,0 +1,17 @@
+<section class="movie-list">
+  <h2>Movie list:</h2>
+
+  @if (movies.length > 0) {
+    <div class="movie-links">
+      @for (movie of movies; track movie.Id) {
+        <button class="movie-link" type="button" (click)="goToMovieDetail(movie.Id)">
+          {{ movie.Title }} {{ movie.Year }}
+        </button>
+      }
+    </div>
+  } @else if (hasLoadError) {
+    <p class="status-message">De filmlijst kon niet geladen worden.</p>
+  } @else {
+    <p class="status-message">Films laden...</p>
+  }
+</section>

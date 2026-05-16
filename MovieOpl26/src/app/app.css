@@ -1,0 +1,7 @@
+.movie_img {width : 100px; height : 100px }
+
+.active {
+  text-decoration: underline;
+  text-decoration-color: yellow;
+
+}

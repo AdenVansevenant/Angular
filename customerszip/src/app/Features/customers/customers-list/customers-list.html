@@ -1,0 +1,51 @@
+<div class="container my-4">
+
+  <!--Filter textbox --> 
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <app-filter-textbox (changed)="filtering($event)"></app-filter-textbox>
+    </div>
+  </div>
+
+  <!-- Customers Table -->
+  <div class="table-responsive">
+    <table class="table table-hover table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+       <th (click)="sort('name')" style="cursor: pointer;">Name</th>
+          <th (click)="sort('city')" style="cursor: pointer;">City</th>
+          <th (click)="sort('orderTotal')" style="cursor: pointer;">Order Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (cust of filteredCustomers$ | async; track cust.id) {
+          <tr>
+            <td>
+              <a href="#" class="text-decoration-none">
+                {{ cust.name | capitalize  }}
+              </a>
+            </td>
+            <td>{{ cust.city }}</td>
+            <td class="text-end">{{ cust.orderTotal  | currency: currencyCode : 'symbol' : '1.1-3' }}</td>
+          </tr>
+        }
+
+        <!-- Total row -->
+        @if ((filteredCustomers$ | async)?.length) {
+          <tr class="fw-bold">
+            <td colspan="2" class="text-end">Total:</td>
+            <td class="text-end">
+              {{ customersOrderTotal$ | async | currency: currencyCode : 'symbol' :  '1.1-3'  }}
+            </td>
+          </tr>
+        } @else {
+          <tr>
+            <td colspan="3" class="text-center">No customers found</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+<span>Angular Routing Tutorial: Great Learning</span>
+<span class="home-space"></span>
+<button class="example-container" mat-icon-button routerLink="/">
+<mat-icon inline="true" aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+</button>
+<span class="space"></span>
+<button class="buttons" mat-button [matMenuTriggerFor]="menu">
+<mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+<button mat-menu-item routerLink="/front-end-course">
+<mat-icon>dialpad</mat-icon>
+<span>Front End</span>
+</button>
+<button mat-menu-item routerLink="/full-stack-course">
+<mat-icon>voicemail</mat-icon>
+<span>Full Stack</span>
+</button>
+</mat-menu>
+</mat-toolbar>
+<router-outlet></router-outlet>

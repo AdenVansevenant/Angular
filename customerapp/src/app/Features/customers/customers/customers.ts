@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Customer } from '../../../Shared/Models/customer.model';
+import { Customer } from '../Models/customer.model';
 import { CusomerService } from '../../../Shared/Services/cusomer-service';
 import { CustomersList } from '../customers-list/customers-list';
 
@@ -17,6 +17,11 @@ export class Customers {
 
   constructor(private customerService: CusomerService) {
     this.title = 'Onze klanten';
+    this.customers$ = new Observable<Customer[]>();
+  }
+
+  ngOnInit() {
+    console.log('OnInit');
     this.customers$ = this.customerService.getCustomers();
   }
 }

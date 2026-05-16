@@ -1,0 +1,27 @@
+[
+    {
+          "id": 1,
+          "name": "karel Janssens",
+          "city": "Kortrijk ",
+          "orderTotal": 40.99
+    },
+
+    {
+          "id": 2,
+          "name": "michelle Vandenbussche",
+          "city": "Brugge",
+          "orderTotal": 89.999
+    },
+    {
+          "id": 3,
+          "name": "Paul Vermeulen",
+          "city": "Oostende",
+          "orderTotal": 29.99
+    },
+    {
+          "id": 4,
+          "name": "Tina Adams",
+          "city": "Torhout",
+          "orderTotal": 15.99
+    }
+]

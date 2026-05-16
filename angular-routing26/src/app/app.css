@@ -1,0 +1,26 @@
+.space{
+flex: 1 1 auto;
+}
+.home-space{
+flex: 20 0 auto;
+}
+.buttons{
+width: 100px;
+height: 40px;
+font-size: 15px;
+border-radius: 10px;
+border: 1px solid #113c89;
+background-color: #ffcccc;
+cursor: pointer;
+}
+.example-container {
+background-color: Transparent;
+background-repeat:no-repeat;
+font-size: 35px;
+height: 35px;
+border: none;
+cursor:pointer;
+overflow: hidden;
+outline:none;
+color: white;
+}

@@ -1,0 +1,17 @@
+<section class="menu">
+    <div class="movie-list">
+      <div class="movie-group">
+        <h2>Movie list:</h2>
+        <ul class="movies">
+            @for ( movie of movies$ | async; track movie)
+            {
+                <li (click)="onSelect(movie)" >
+                    <span >{{movie.Title}} </span>{{movie.Year}} 
+                   </li>
+            }
+       
+        </ul>
+      </div>
+    </div>
+  </section>
+

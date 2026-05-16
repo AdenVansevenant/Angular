@@ -1,0 +1,88 @@
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+    <p>
+      <label for="firstname">First Name </label>
+      <input type="text" id="firstname" name="firstname" formControlName="firstname">
+    </p>
+    
+    @if(!firstname?.valid && (firstname?.dirty ||firstname?.touched))
+     {
+      <span [hidden]="!firstname?.errors?.['required']">
+      First Name is required
+    </span>
+    <span [hidden]="!firstname?.errors?.['minlength']">
+      Min Length is 10
+    </span>
+     }
+  <p>
+    <label for="lastname">Last Name </label>
+    <input type="text" id="lastname" name="lastname" formControlName="lastname">
+  </p>
+  
+ @if(!lastname?.valid && (lastname?.dirty ||lastname?.touched))
+     {
+      <span [hidden]="!lastname?.errors?.['required']">
+      First Name is required
+    </span>
+    <span [hidden]="!lastname?.errors?.['minlength']">
+      Min Length is 10
+    </span>
+     }
+  
+  <p>
+    <label for="email">Email </label>
+    <input type="text" id="email" name="email" formControlName="email">
+  </p>
+ @if(!email?.valid && (email?.dirty ||email?.touched)){
+        <span [hidden]="!email?.errors?.['required']">
+          email is required
+        </span>
+        <span [hidden]="!email?.errors?.['email']">
+          invalid email id
+        </span>
+    }
+
+ <p>
+    <label for="gender">Geneder </label>
+    <input type="radio" value="male" id="gender" name="gender" formControlName="gender"> Male
+    <input type="radio" value="female" id="gender" name="gender" formControlName="gender"> Female
+  </p>
+@if(!gender?.valid && (gender?.dirty ||gender?.touched)){
+        <span [hidden]="!gender?.errors?.['required']">
+          gender is required
+        </span>
+    }
+  <p>
+    <label for="isMarried">Married </label>
+    <input type="checkbox" id="isMarried" name="isMarried" formControlName="isMarried">
+  </p>
+  
+ <p>
+    <label for="country">country </label>
+    <select id="country" name="country" formControlName="country">
+ @for (c of countryList; track c.id) {
+        <option [ngValue]="c.id">
+          {{ c.name }}
+        </option>
+      }
+    </select>
+  </p>
+ @if(!country?.valid && (country?.dirty ||country?.touched)){
+        <span [hidden]="!country?.errors?.['required']">
+          country is required
+        </span>
+     }
+
+
+  <p>{{contactForm.valid}} </p>
+  
+  <p>
+    <button type="submit" [disabled]="!contactForm.valid">Submit</button>
+  </p>
+
+  
+
+  <p>
+    <button type="submit">Submit</button>
+  </p>
+  
+</form>

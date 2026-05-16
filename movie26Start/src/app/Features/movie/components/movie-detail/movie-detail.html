@@ -1,0 +1,22 @@
+@if (movie) {
+  <section class="movie-detail">
+    <img class="movie-poster" [src]="movie.Poster" [alt]="movie.Title" />
+
+    <div class="movie-copy">
+      <h2>Movie:</h2>
+      <p><strong>Title:</strong> {{ movie.Title }}</p>
+      <p><strong>Year:</strong> {{ movie.Year }}</p>
+      <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+      <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+
+      <h3>Plot:</h3>
+      <p class="plot">{{ movie.Plot }}</p>
+
+      <button type="button" routerLink="/movies">Back</button>
+    </div>
+  </section>
+} @else if (!isLoaded) {
+  <p>Film laden...</p>
+} @else {
+  <p>Film niet gevonden.</p>
+}
