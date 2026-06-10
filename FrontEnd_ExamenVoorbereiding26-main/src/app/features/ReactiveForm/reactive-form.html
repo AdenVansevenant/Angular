@@ -70,6 +70,27 @@
           </div>
 
           <div>
+            <label class="form-label fw-bold" for="country">Land</label>
+
+            <!--
+              SELECT MET OPTIONS:
+              Ook een select kan aan een FormControl gekoppeld worden.
+              De opties komen uit countryList en worden getoond met @for.
+
+              [ngValue]:
+              Hiermee geven we de echte waarde van c.id door aan het formulier.
+              Dit veld is puur demonstratie en zit niet in het Student model.
+            -->
+            <select id="country" class="form-select" formControlName="country">
+              @for (c of countryList; track c.id) {
+                <option [ngValue]="c.id">
+                  {{ c.name }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div>
             <label class="form-label fw-bold" for="behaalde-punten">Behaalde punten</label>
             <input
               id="behaalde-punten"
@@ -81,6 +102,36 @@
             @if (isInvalid('behaaldePunten')) {
               <p class="text-danger small mt-1 mb-0">Punten moeten tussen 0 en 180 liggen.</p>
             }
+          </div>
+
+          <div formArrayName="courses">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+              <label class="form-label fw-bold mb-0">Vakken</label>
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="addCourse()">
+                Vak toevoegen
+              </button>
+            </div>
+
+            <!--
+              FORMARRAY:
+              Een FormArray is handig wanneer je niet vooraf weet hoeveel velden er zullen zijn.
+              Hier kan de gebruiker meerdere vakken toevoegen of verwijderen.
+            -->
+            <div class="d-grid gap-2">
+              @for (course of courses.controls; track $index) {
+                <div class="input-group">
+                  <input class="form-control" type="text" [formControlName]="$index" />
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    (click)="removeCourse($index)"
+                    [disabled]="courses.length === 1"
+                  >
+                    Verwijder
+                  </button>
+                </div>
+              }
+            </div>
           </div>
 
           <!--

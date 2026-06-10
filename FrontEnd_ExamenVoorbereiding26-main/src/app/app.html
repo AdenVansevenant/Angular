@@ -1,29 +1,43 @@
-<header class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
-  <div class="container">
+<mat-toolbar color="primary" class="app-toolbar">
+  <div class="container d-flex flex-wrap align-items-center gap-2">
     <!--
+      mat-toolbar:
+      Dit is een Angular Material toolbar.
       routerLink:
       Deze link navigeert naar de route '/' zonder de volledige pagina te herladen.
     -->
-    <a class="navbar-brand fw-bold" routerLink="/">{{ appTitle }}</a>
+    <a mat-button class="app-title" routerLink="/">{{ appTitle }}</a>
 
-    <nav class="navbar-nav flex-row flex-wrap gap-2 ms-lg-auto" aria-label="Hoofdnavigatie">
+    <span class="toolbar-spacer"></span>
+
+    <nav class="d-flex flex-wrap gap-2" aria-label="Hoofdnavigatie">
       <!--
-        @for:
-        We tonen automatisch een nav-link voor elk item in navLinks.
-        Dit is de nieuwe Angular-syntax, dus we gebruiken niet *ngFor.
+        mat-button:
+        Deze links krijgen Material button styling.
+        routerLink navigeert binnen Angular zonder volledige page refresh.
+        [class.active] geeft de actieve link extra styling.
       -->
-      @for (link of navLinks; track link.route) {
-        <a
-          class="nav-link rounded px-3"
-          [routerLink]="link.route"
-          [class.active]="isActiveRoute(link.route)"
-        >
-          {{ link.label }}
-        </a>
-      }
+      <a mat-button routerLink="/databinding" [class.active]="isActiveRoute('/databinding')">
+        Databinding
+      </a>
+      <a mat-button routerLink="/students" [class.active]="isActiveRoute('/students')">
+        Studenten
+      </a>
+      <a mat-button routerLink="/input-output" [class.active]="isActiveRoute('/input-output')">
+        Input & Output
+      </a>
+      <a mat-button routerLink="/reactive-form" [class.active]="isActiveRoute('/reactive-form')">
+        Reactive Form
+      </a>
+      <a mat-button routerLink="/drag-drop" [class.active]="isActiveRoute('/drag-drop')">
+        Drag & Drop
+      </a>
+      <a mat-button routerLink="/summary" [class.active]="isActiveRoute('/summary')">
+        Samenvatting
+      </a>
     </nav>
   </div>
-</header>
+</mat-toolbar>
 
 <div class="container py-4">
   <main>
@@ -36,6 +50,6 @@
   </main>
 
   <footer class="border-top mt-5 pt-3 text-secondary small">
-    Front-End Development examenvoorbereiding - 2026
+    Front-End Development examenvoorbereiding - 2026 -- Dit project kan stukken leerstof missen of fout uitleggen. Wees hiervan op de hoogte!!
   </footer>
 </div>

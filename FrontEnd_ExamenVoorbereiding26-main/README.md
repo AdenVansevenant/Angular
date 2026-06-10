@@ -145,6 +145,7 @@ We gebruiken dus niet de oudere `*ngFor`.
 - `[disabled]` is property binding.
 - `[style.color]` is style binding.
 - `@if` en `@for` zijn de moderne Angular control flow syntax.
+- `#quickName` is een template reference variable waarmee je een HTML-element lokaal kan aanspreken.
 
 ## 2. Singleton, service laag, model en JSON
 
@@ -178,9 +179,13 @@ De JSON-data staat in:
 - Een singleton service met `providedIn: 'root'`.
 - Data ophalen uit een JSON-bestand met `HttpClient`.
 - Een student ophalen op id met `getStudentById(id)`.
+- Error handling met `catchError`.
 - Een overview zonder RxJS `.pipe()`.
 - Een overview met RxJS `.pipe(tap(), map())`.
 - Gebruik van de Angular `async` pipe in de HTML.
+- Gebruik van Angular pipes zoals `uppercase` en `percent`.
+- Gebruik van `ngOnInit` als lifecycle hook.
+- Filteren van studenten met een filter textbox, `@Output()` en `filter()`.
 
 ### Singleton service
 
@@ -333,6 +338,86 @@ tap() = kijken of nevenactie doen, data blijft hetzelfde
 map() = data omvormen naar iets nieuws
 ```
 
+### filter()
+
+`filter()` gebruik je op een array.
+Het geeft een nieuwe lijst terug met alleen de items die voldoen aan een voorwaarde.
+
+Voorbeeld:
+
+```ts
+this.filteredStudents$ = this.students$.pipe(
+  map((students) =>
+    students.filter((student) =>
+      student.voornaam.toLowerCase().includes(searchText.toLowerCase())
+    )
+  )
+);
+```
+
+Belangrijk verschil:
+
+```text
+find() = zoekt 1 item
+filter() = zoekt meerdere items en geeft een lijst terug
+```
+
+### catchError
+
+`catchError` vangt fouten op bij een Observable.
+Dat is belangrijk bij echte API's, want een request kan mislukken.
+
+Voorbeeld:
+
+```ts
+return this.http.get<Student[]>(this.apiUrl).pipe(
+  tap((students) => console.log(students)),
+  catchError((error) => {
+    console.log('Fout:', error);
+    return of([]);
+  })
+);
+```
+
+Hier geeft `of([])` een lege lijst terug.
+Zo blijft de app werken, zelfs wanneer het ophalen van data mislukt.
+
+### ngOnInit
+
+`ngOnInit` is een lifecycle hook.
+Angular voert deze method uit wanneer het component wordt opgestart.
+
+Voorbeeld:
+
+```ts
+ngOnInit() {
+  this.loadStudentById(1);
+}
+```
+
+Je gebruikt `ngOnInit` vaak om startdata te laden.
+
+### Angular pipes
+
+Angular pipes passen de weergave van data aan in de template.
+De originele data verandert niet.
+
+Voorbeelden:
+
+```html
+{{ student.achternaam | uppercase }}
+{{ calculatePercentage(student.behaaldePunten) | percent }}
+```
+
+Kort:
+
+```text
+uppercase = tekst in hoofdletters tonen
+percent = getal als percentage tonen
+async = waarde uit Observable halen
+json = object leesbaar tonen
+```
+
 ### Belangrijk voor het examen
 
 - Een service zet data en logica apart van componenten.
@@ -343,6 +428,8 @@ map() = data omvormen naar iets nieuws
 - De `async` pipe hoort bij Angular templates en leest waarden uit een Observable.
 - `tap()` verandert data niet.
 - `map()` verandert data wel naar een nieuwe vorm.
+- `catchError()` vangt fouten op.
+- `ngOnInit()` wordt uitgevoerd wanneer het component start.
 
 ### Echte API: GET, POST, PUT, PATCH en DELETE
 
@@ -367,6 +454,26 @@ Daardoor kan je meestal meer doen dan alleen lezen.
 Voorbeelden:
 
 ```ts
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Student } from '../models/student';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StudentService {
+  apiUrl = environment.apiUrl + '/api/Students';
+
+  constructor(private http: HttpClient) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
 getStudents(): Observable<Student[]> {
   return this.http.get<Student[]>(this.apiUrl);
 }
@@ -384,7 +491,8 @@ updateStudent(id: number, student: Student): Observable<Student> {
 }
 
 deleteStudent(id: number): Observable<void> {
-  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  return this.http.delete<void>(`${this.apiUrl}/${id}`, this.httpOptions);
+}
 }
 ```
 
@@ -592,6 +700,38 @@ Voorbeeld:
 
 Als de URL `/input-output` is, toont Angular daar het `InputOutput` component.
 
+### Route parameters en ActivatedRoute
+
+Route parameters gebruik je wanneer een deel van de URL een waarde is.
+
+Voorbeeld route:
+
+```ts
+{
+  path: 'students/:id',
+  component: StudentDetail
+}
+```
+
+Voorbeeld URL:
+
+```text
+/students/1
+```
+
+In het component lees je de `id` met `ActivatedRoute`:
+
+```ts
+constructor(private route: ActivatedRoute) {}
+
+ngOnInit() {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+}
+```
+
+Dit is handig voor detailpagina's.
+Bijvoorbeeld: klik op student 1 en toon de detailpagina voor student 1.
+
 ### Wildcard route
 
 De wildcard route vangt onbekende URLs op:
@@ -613,6 +753,29 @@ Als iemand naar een route gaat die niet bestaat, stuurt Angular de gebruiker ter
 - `router-outlet` toont het component van de actieve route.
 - `path: ''` is de startpagina.
 - `path: '**'` is de fallback voor onbekende routes.
+- `ActivatedRoute` gebruik je om route parameters zoals `id` uit te lezen.
+
+## Extra: template reference variable
+
+Een template reference variable geeft een HTML-element een lokale naam in de template.
+
+Voorbeeld:
+
+```html
+<input #quickName />
+<button (click)="showTemplateReferenceValue(quickName.value)">
+  Lees waarde
+</button>
+```
+
+`#quickName` verwijst naar de input.
+Met `quickName.value` lees je de huidige waarde uit de input.
+
+Belangrijk:
+
+- Het werkt lokaal in de template.
+- Het is handig voor kleine voorbeelden.
+- Voor grotere formulieren gebruik je meestal template-driven forms of reactive forms.
 
 ## 5. Reactive Form
 
@@ -628,6 +791,7 @@ De oefening staat in:
 - Formuliervelden met `FormControl`.
 - Validatie met `Validators`.
 - HTML-koppeling met `[formGroup]` en `formControlName`.
+- Dynamische velden met `FormArray`.
 - Submit met `(ngSubmit)`.
 - Foutmeldingen met `@if`.
 - Een disabled submitknop zolang het formulier ongeldig is.
@@ -651,6 +815,28 @@ Kort:
 ```text
 FormGroup = volledig formulier
 FormControl = 1 veld in dat formulier
+FormArray = dynamische lijst van velden
+```
+
+### FormArray
+
+Een `FormArray` gebruik je wanneer je niet vooraf weet hoeveel velden er nodig zijn.
+Bijvoorbeeld: een student kan meerdere vakken volgen.
+
+Voorbeeld:
+
+```ts
+courses: new FormArray([
+  new FormControl('Front-End Development')
+])
+```
+
+In de HTML:
+
+```html
+<div formArrayName="courses">
+  <input [formControlName]="0" />
+</div>
 ```
 
 ### Validators
@@ -721,6 +907,7 @@ Als het formulier geldig is, maken we een nieuw `Student` object met de formulie
 - `ReactiveFormsModule` is nodig om reactive forms te gebruiken.
 - `[formGroup]` koppelt een HTML-form aan een FormGroup.
 - `formControlName` koppelt een input aan een FormControl.
+- `formArrayName` koppelt een stuk HTML aan een FormArray.
 - `Validators` controleren de input.
 - `form.valid` zegt of het formulier geldig is.
 - `form.value` bevat de ingevulde waarden.
@@ -736,3 +923,162 @@ De oefening staat in:
 
 Deze pagina toont per onderdeel een Bootstrap-card met de belangrijkste examenpunten.
 Zo kan je de samenvatting bekijken zonder de README apart te openen.
+
+## 7. Drag & Drop
+
+Drag & Drop is toegevoegd als aparte feature:
+
+- `src/app/features/DragDrop/drag-drop.ts`
+- `src/app/features/DragDrop/drag-drop.html`
+- `src/app/features/DragDrop/drag-drop.css`
+
+Deze oefening gebruikt Angular CDK.
+
+Installatie:
+
+```bash
+npm install @angular/cdk@^21.1.0
+```
+
+Belangrijke syntax:
+
+```html
+<div class="pitch-boundary">
+  <div
+    class="player"
+    cdkDragBoundary=".pitch-boundary"
+    cdkDrag
+    (cdkDragEnded)="onDragEnded($event)"
+  >
+    ST
+  </div>
+</div>
+```
+
+Kort:
+
+- `cdkDrag` maakt een element sleepbaar.
+- `cdkDragBoundary` beperkt het slepen tot een container.
+- `(cdkDragEnded)` voert een method uit wanneer het slepen stopt.
+- `DragDropModule` moet geimporteerd zijn in het component.
+
+De feature bevat ook een selectveld met posities:
+
+```html
+<select formControlName="positionId">
+  <option value="">- Select -</option>
+  @if (positions$ | async; as positions) {
+    @for (position of positions; track position.id) {
+      <option [value]="position.id">
+        {{ position.name }}
+      </option>
+    }
+  }
+</select>
+```
+
+## 8. Angular CLI commandos
+
+Handige commandos voor Angular-projecten.
+
+### Project starten
+
+```bash
+ng new student-exam-prep
+npm install
+npm install bootstrap
+npm install @angular/cdk@^21.1.0
+npm install @angular/material@^21.1.0 @angular/animations@^21.1.0
+ng serve -o
+npm run build
+```
+
+Kort:
+
+- `ng new` maakt een nieuw Angular-project.
+- `npm install` installeert dependencies uit `package.json`.
+- `npm install bootstrap` voegt Bootstrap toe.
+- `npm install @angular/cdk@^21.1.0` voegt Angular CDK toe voor drag and drop.
+- `npm install @angular/material@^21.1.0 @angular/animations@^21.1.0` voegt Angular Material toe.
+- `ng serve -o` start de app en opent de browser.
+- `npm run build` controleert of het project correct buildt.
+
+### Environments
+
+```bash
+ng generate environments
+```
+
+Dit maakt environment-bestanden.
+Daarin zet je bijvoorbeeld een `apiUrl`, zodat je service niet overal hardcoded URLs gebruikt.
+
+### Service en model
+
+```bash
+ng g s shared/services/student
+ng g class shared/models/Student
+```
+
+Kort:
+
+- `ng g s` maakt een service.
+- `ng g class` maakt een class, bijvoorbeeld een model.
+- `shared/services` is een logische plaats voor gedeelde services.
+- `shared/models` is een logische plaats voor models.
+
+### Feature componenten
+
+```bash
+ng g c features/Student/Overview
+ng g c features/Student/OverviewBalance
+ng g c features/Student/StudentDetail
+ng g c features/Databinding
+ng g c features/InputOutput
+ng g c features/ReactiveForm
+ng g c features/DragDrop
+ng g c features/Summary
+```
+
+Kort:
+
+- `ng g c` maakt een component.
+- `features/...` gebruik je voor onderdelen/pagina's van je applicatie.
+- Voor schoolgerichte oefeningen kan je alles rond `Student` groeperen in `features/Student`.
+
+## 9. Belangrijke imports
+
+Forms:
+
+```ts
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+```
+
+HTTP en services:
+
+```ts
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, tap, map, catchError, of } from 'rxjs';
+```
+
+Routing:
+
+```ts
+import { Routes } from '@angular/router';
+import { RouterLink, RouterOutlet, ActivatedRoute, Router } from '@angular/router';
+```
+
+Pipes en CDK:
+
+```ts
+import { AsyncPipe, JsonPipe, UpperCasePipe, PercentPipe } from '@angular/common';
+import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
+```
+
+Angular Material:
+
+```ts
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+```

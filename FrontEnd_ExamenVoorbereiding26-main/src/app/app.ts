@@ -1,41 +1,18 @@
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   // RouterOutlet toont de pagina die bij de huidige route hoort.
   // RouterLink gebruiken we om te navigeren zonder de volledige pagina te herladen.
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   appTitle = 'Front-End examenvoorbereiding';
-
-  // Deze lijst bepaalt welke links in de toolbar staan.
-  // routerLink gebruikt de route om naar het juiste component te navigeren.
-  navLinks = [
-    {
-      label: 'Databinding',
-      route: '/databinding',
-    },
-    {
-      label: 'Studenten',
-      route: '/students',
-    },
-    {
-      label: 'Input & Output',
-      route: '/input-output',
-    },
-    {
-      label: 'Reactive Form',
-      route: '/reactive-form',
-    },
-    {
-      label: 'Samenvatting',
-      route: '/summary',
-    }
-  ];
 
   constructor(private router: Router) {}
 

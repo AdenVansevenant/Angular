@@ -446,6 +446,75 @@ export class CustomerService {
 
 `providedIn: 'root'` betekent dat Angular een gedeelde instantie van de service maakt voor de hele app. Dat is het singleton-principe.
 
+## Singleton
+
+Een singleton betekent: er bestaat maar 1 gedeelde instantie van iets in de applicatie.
+
+In Angular gebruik je een singleton meestal via een service:
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+export class CountService {
+  counter = 0;
+
+  increment(): void {
+    this.counter++;
+  }
+}
+```
+
+`providedIn: 'root'` zegt tegen Angular:
+
+- Maak deze service beschikbaar in de hele applicatie.
+- Maak maar 1 instantie van deze service.
+- Geef diezelfde instantie aan elke component die de service injecteert.
+
+Waar gebruik je een singleton voor?
+
+- Data delen tussen meerdere componenten.
+- Een gemeenschappelijke teller of status bewaren.
+- Ingelogde gebruiker of sessie-informatie bijhouden.
+- Winkelmandje, favorieten of geselecteerde items bewaren.
+- Data cachen die je niet telkens opnieuw wil ophalen.
+- Centrale logica zoals sorteren, filteren of API-calls hergebruiken.
+
+Voorbeeld uit `demo-singleton`: `ComponentA` en `ComponentB` gebruiken allebei dezelfde `CountService`.
+
+```ts
+import { Component } from '@angular/core';
+import { CountService } from '../shared/services/count-service';
+
+@Component({
+  selector: 'app-component-a',
+  templateUrl: './component-a.html'
+})
+export class ComponentA {
+  constructor(private countService: CountService) {}
+
+  get counter(): number {
+    return this.countService.counter;
+  }
+
+  increment(): void {
+    this.countService.increment();
+  }
+}
+```
+
+Als `ComponentB` dezelfde service injecteert, krijgt die dezelfde `counter` te zien. Klik je in component A op `increment`, dan verandert de waarde ook voor component B.
+
+Zo gebruik je een singleton stap voor stap:
+
+1. Maak een service.
+2. Zet `providedIn: 'root'` in de `@Injectable`.
+3. Bewaar gedeelde data of gedeelde methods in die service.
+4. Injecteer de service in elke component die de data nodig heeft.
+5. Roep methods van de service aan vanuit de component.
+
+Gebruik geen singleton voor puur visuele details die maar in 1 component nodig zijn. Zet lokale state, zoals een open/dicht-status van een klein menu, gewoon in de component zelf.
+
 ## HttpClient en JSON-data
 
 Om data op te halen gebruikten we `HttpClient`.
@@ -539,6 +608,78 @@ ngOnInit(): void {
   const id = this.route.snapshot.paramMap.get('id');
 }
 ```
+
+## ngOnInit
+
+`ngOnInit` is een lifecycle hook van Angular.
+
+Een lifecycle hook is een method die Angular automatisch uitvoert op een bepaald moment in het leven van een component. `ngOnInit()` wordt uitgevoerd wanneer de component aangemaakt is en klaar is om te starten.
+
+Je gebruikt `ngOnInit` vooral voor startlogica:
+
+- Data ophalen wanneer een component opent.
+- Een service aanspreken om gegevens te laden.
+- Routeparameters uitlezen, zoals een `id`.
+- Een lijst vullen bij het openen van een pagina.
+- Een formulier voorbereiden met bestaande data.
+
+Voorbeeld:
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../Services/customer-service';
+import { Customer } from '../Models/customer.model';
+
+@Component({
+  selector: 'app-customers',
+  templateUrl: './customers.html'
+})
+export class Customers implements OnInit {
+  customers: Customer[] = [];
+
+  constructor(private customerService: CustomerService) {}
+
+  ngOnInit(): void {
+    this.customerService.getCustomers().subscribe((customers) => {
+      this.customers = customers;
+    });
+  }
+}
+```
+
+Belangrijk verschil tussen `constructor` en `ngOnInit`:
+
+| Constructor | ngOnInit |
+| --- | --- |
+| Wordt gebruikt om dependencies te injecteren. | Wordt gebruikt om startlogica uit te voeren. |
+| Bijvoorbeeld een service binnenkrijgen. | Bijvoorbeeld data ophalen via die service. |
+| Hou je meestal kort. | Hier zet je code die moet lopen bij het starten van de component. |
+
+Voorbeeld met routeparameter:
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-movie-detail',
+  templateUrl: './movie-detail.html'
+})
+export class MovieDetail implements OnInit {
+  movieId: string | null = null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.movieId = this.route.snapshot.paramMap.get('id');
+  }
+}
+```
+
+Korte vuistregel:
+
+- `constructor`: Angular geeft je wat je nodig hebt, zoals een service.
+- `ngOnInit`: jij start je component op, bijvoorbeeld data laden.
 
 ## Environments
 
@@ -723,12 +864,14 @@ title = 'movie';
 - Template: HTML van een component.
 - Selector: HTML-tag waarmee je een component gebruikt.
 - Service: gedeelde logica of data.
+- Singleton: 1 gedeelde instantie, meestal een service met `providedIn: 'root'`.
 - Model/interface: beschrijving van de data.
 - Pipe: data formatteren voor weergave.
 - Route: koppeling tussen URL en component.
 - Router outlet: plaats waar routecomponenten verschijnen.
 - Input: data van parent naar child.
 - Output: event van child naar parent.
+- ngOnInit: lifecycle hook die startlogica uitvoert wanneer een component opent.
 - Observable: asynchrone datastroom, vaak van `HttpClient`.
 - Async pipe: subscriben op een `Observable` vanuit HTML.
 - Environment: configuratie per omgeving.
@@ -743,6 +886,8 @@ Wanneer gebruik je wat?
 | Een pagina maken met eigen URL | Component + route |
 | Data ophalen uit JSON/API | Service + HttpClient |
 | Data delen tussen componenten | Service |
+| Gedeelde state bewaren in de hele app | Singleton service |
+| Startdata laden wanneer een component opent | `ngOnInit()` |
 | Vorm van data beschrijven | Model of interface |
 | Data mooier tonen in HTML | Pipe |
 | Van pagina wisselen | Routing |
@@ -772,4 +917,3 @@ Wanneer gebruik je wat?
 5. Voeg een route toe als de gebruiker er via een URL naartoe moet.
 6. Voeg imports toe aan de standalone component.
 7. Test met `ng serve`.
-
