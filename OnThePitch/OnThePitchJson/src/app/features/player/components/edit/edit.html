@@ -1,0 +1,61 @@
+<h2>Edit player</h2>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <p>
+    <label>
+      Shirt no
+      <input type="number" formControlName="shirtNo" />
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Name
+      <input type="text" formControlName="name" />
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Position
+      <select formControlName="positionId">
+        <option [ngValue]="0">Select position</option>
+        @for (position of positions; track position.id) {
+          <option [ngValue]="position.id">{{ position.name }}</option>
+        }
+      </select>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Appearances
+      <input type="number" formControlName="appearances" />
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Goals
+      <input type="number" formControlName="goals" />
+    </label>
+  </p>
+
+  <div class="pitch-boundary">
+    <div
+      class="player"
+      cdkDragBoundary=".pitch-boundary"
+      cdkDrag
+      (cdkDragEnded)="onDragEnded($event)"
+    >
+      <img src="/images/player.JPG" alt="Player" />
+    </div>
+  </div>
+
+  <button type="submit">Save</button>
+  <a routerLink="/players">Back to list</a>
+</form>

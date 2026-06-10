@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Goalkeeper",
+    "displayOrder": 1,
+    "players": []
+  },
+  {
+    "id": 2,
+    "name": "Defense",
+    "displayOrder": 2,
+    "players": []
+  },
+  {
+    "id": 3,
+    "name": "Midfield",
+    "displayOrder": 3,
+    "players": []
+  },
+  {
+    "id": 4,
+    "name": "Attack",
+    "displayOrder": 4,
+    "players": []
+  }
+]

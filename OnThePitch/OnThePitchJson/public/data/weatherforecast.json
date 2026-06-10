@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-05-12T11:50:43.4872965+00:00",
+    "temperatureC": -10,
+    "temperatureF": 15,
+    "summary": "Scorching"
+  },
+  {
+    "date": "2026-05-13T11:50:43.4872976+00:00",
+    "temperatureC": 13,
+    "temperatureF": 55,
+    "summary": "Warm"
+  },
+  {
+    "date": "2026-05-14T11:50:43.4872979+00:00",
+    "temperatureC": 53,
+    "temperatureF": 127,
+    "summary": "Chilly"
+  },
+  {
+    "date": "2026-05-15T11:50:43.487298+00:00",
+    "temperatureC": -5,
+    "temperatureF": 24,
+    "summary": "Sweltering"
+  },
+  {
+    "date": "2026-05-16T11:50:43.4872982+00:00",
+    "temperatureC": -13,
+    "temperatureF": 9,
+    "summary": "Mild"
+  }
+]

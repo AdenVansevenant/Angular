@@ -1,0 +1,24 @@
+table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
+}
+
+th {
+  border-bottom: 3px solid #333333;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 8px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}

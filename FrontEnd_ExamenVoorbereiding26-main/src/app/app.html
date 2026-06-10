@@ -1,0 +1,41 @@
+<header class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
+  <div class="container">
+    <!--
+      routerLink:
+      Deze link navigeert naar de route '/' zonder de volledige pagina te herladen.
+    -->
+    <a class="navbar-brand fw-bold" routerLink="/">{{ appTitle }}</a>
+
+    <nav class="navbar-nav flex-row flex-wrap gap-2 ms-lg-auto" aria-label="Hoofdnavigatie">
+      <!--
+        @for:
+        We tonen automatisch een nav-link voor elk item in navLinks.
+        Dit is de nieuwe Angular-syntax, dus we gebruiken niet *ngFor.
+      -->
+      @for (link of navLinks; track link.route) {
+        <a
+          class="nav-link rounded px-3"
+          [routerLink]="link.route"
+          [class.active]="isActiveRoute(link.route)"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+  </div>
+</header>
+
+<div class="container py-4">
+  <main>
+    <!--
+      RouterOutlet:
+      Hier plaatst Angular de pagina die bij de URL past.
+      '/' toont Home, '/databinding' toont Databinding, enzovoort.
+    -->
+    <router-outlet />
+  </main>
+
+  <footer class="border-top mt-5 pt-3 text-secondary small">
+    Front-End Development examenvoorbereiding - 2026
+  </footer>
+</div>

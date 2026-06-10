@@ -1,0 +1,34 @@
+[
+  {
+    "id": 21,
+    "shirtNo": 14,
+    "name": "Christophe De Waele",
+    "positionId": 4,
+    "appearances": 40,
+    "goals": 12,
+    "positionX": 344.4814453125,
+    "positionY": 212.48146057128906,
+    "goalsPerMatch": 3,
+    "position": {
+      "id": 4,
+      "name": "Attack",
+      "displayOrder": 4
+    }
+  },
+  {
+    "id": 54,
+    "shirtNo": 4,
+    "name": "VIVES player",
+    "positionId": 3,
+    "appearances": 8,
+    "goals": 1,
+    "positionX": 379.4814453125,
+    "positionY": 199.48147583007812,
+    "goalsPerMatch": 0,
+    "position": {
+      "id": 3,
+      "name": "Midfield",
+      "displayOrder": 3
+    }
+  }
+]

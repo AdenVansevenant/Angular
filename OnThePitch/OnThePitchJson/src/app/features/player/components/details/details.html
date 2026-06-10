@@ -1,0 +1,39 @@
+<h2>Player details</h2>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+@if (player$ | async; as player) {
+  <dl>
+    <dt>Shirt no</dt>
+    <dd>{{ player.shirtNo }}</dd>
+
+    <dt>Name</dt>
+    <dd>{{ player.name.trim() }}</dd>
+
+    <dt>Position</dt>
+    <dd>{{ player.position?.name?.trim() }}</dd>
+
+    <dt>Appearances</dt>
+    <dd>{{ player.appearances }}</dd>
+
+    <dt>Goals</dt>
+    <dd>{{ player.goals }}</dd>
+
+    <dt>Goals per match</dt>
+    <dd>{{ player.goalsPerMatch }}</dd>
+
+    <dt>Position X</dt>
+    <dd>{{ player.positionX }}</dd>
+
+    <dt>Position Y</dt>
+    <dd>{{ player.positionY }}</dd>
+  </dl>
+
+  <p>
+    <a [routerLink]="['/players/edit', player.id]">Edit</a>
+    |
+    <a routerLink="/players">Back to list</a>
+  </p>
+}
